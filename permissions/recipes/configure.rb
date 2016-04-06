@@ -10,6 +10,7 @@ node[:deploy].each do |application, deploy|
     setfacl -R -m u:deploy:rwX -m u:apache:rwX -m u:ec2-user:rwX files application/cache/twig
     setfacl -dR -m u:deploy:rwx -m u:apache:rwX -m u:ec2-user:rwx files application/cache/twig
     chmod -R 777 files
+    chmod -R 777 application/cache/twig
     EOH
   end
   
