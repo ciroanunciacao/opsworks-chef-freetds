@@ -8,7 +8,7 @@ node[:deploy].each do |application, deploy|
     user "root"
     cwd "#{deploy[:deploy_to]}/current"
     code <<-EOH
-    curl -sS https://getcomposer.org/installer | php
+    php -r "readfile('https://getcomposer.org/installer');" | php
     php composer.phar install --no-dev --no-interaction --optimize-autoloader
     EOH
     only_if { ::File.exists?("#{deploy[:deploy_to]}/current/composer.json") }
