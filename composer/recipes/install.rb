@@ -6,11 +6,11 @@ node[:deploy].each do |application, deploy|
   script "install_composer" do
     interpreter "bash"
     user "root"
-    cwd "#{deploy[:deploy_to]}/current"
+    cwd "/tmp"
     code <<-EOH
-    curl -s https://getcomposer.org/installer --insecure | php
-    php composer.phar install --no-dev
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    composer install
     EOH
-    only_if { ::File.exists?("#{deploy[:deploy_to]}/current/composer.json") }
+    not_if { ::File.exists?("/usr/local/bin/composer") }
   end
 end
