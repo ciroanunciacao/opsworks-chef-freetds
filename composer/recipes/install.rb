@@ -9,7 +9,7 @@ node[:deploy].each do |application, deploy|
     cwd "#{deploy[:deploy_to]}/current"
     code <<-EOH
     curl -s https://getcomposer.org/installer | php
-    php composer.phar install --no-dev
+    php "#{deploy[:deploy_to]}/current/composer.phar" install --no-dev
     EOH
     only_if { ::File.exists?("#{deploy[:deploy_to]}/current/composer.json") }
   end
