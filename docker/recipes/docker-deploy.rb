@@ -23,14 +23,14 @@ node[:deploy].each do |application, deploy|
     code <<-EOH
       if docker ps | grep #{deploy[:application]}; 
       then
-        docker stop #{deploy[:application]}
+        docker stop -f #{deploy[:application]}
         sleep 3
-        docker rm #{deploy[:application]}
+        docker rm -f #{deploy[:application]}
         sleep 3
       fi
       if docker images | grep #{deploy[:application]}; 
       then
-        docker rmi #{deploy[:application]}
+        docker rmi -f #{deploy[:application]}
       fi
     EOH
   end
