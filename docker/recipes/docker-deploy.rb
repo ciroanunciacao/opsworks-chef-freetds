@@ -41,7 +41,7 @@ node[:deploy].each do |application, deploy|
     EOH
   end
   
-  dockerenvs = " "
+  dockerenvs = ""
   deploy[:environment_variables].each do |key, value|
     dockerenvs=dockerenvs+" -e "+key+"="+value
   end
