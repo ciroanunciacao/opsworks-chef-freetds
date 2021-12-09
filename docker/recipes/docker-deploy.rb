@@ -24,9 +24,9 @@ node[:deploy].each do |application, deploy|
       if docker ps | grep #{deploy[:application]}; 
       then
         docker stop -f #{deploy[:application]}
-        sleep 3
+        sleep 6
         docker rm -f #{deploy[:application]}
-        sleep 3
+        sleep 6
       fi
       if docker images | grep #{deploy[:application]}; 
       then
