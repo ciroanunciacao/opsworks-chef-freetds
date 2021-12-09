@@ -31,7 +31,10 @@ node[:deploy].each do |application, deploy|
       if docker images | grep #{deploy[:application]}; 
       then
         docker rmi -f #{deploy[:application]}
+        sleep 3
       fi
+      docker container prune -f
+      sleep 3
     EOH
   end
 
@@ -52,7 +55,7 @@ node[:deploy].each do |application, deploy|
     user "root"
     cwd "#{deploy[:deploy_to]}/current"
     code <<-EOH
-      docker run #{dockerenvs} -p #{node[:opsworks][:instance][:private_ip]}:#{deploy[:environment_variables][:service_port]}:#{deploy[:environment_variables][:container_port]} --name #{deploy[:application]} -d #{deploy[:application]}
+      docker run --rm #{dockerenvs} -p #{node[:opsworks][:instance][:private_ip]}:#{deploy[:environment_variables][:service_port]}:#{deploy[:environment_variables][:container_port]} --name #{deploy[:application]} -d #{deploy[:application]}
     EOH
   end
 
