@@ -21,6 +21,8 @@ node[:deploy].each do |application, deploy|
   bash "docker-cleanup" do
     user "root"
     code <<-EOH
+      docker stop $(docker ps -a -q)
+      sleep 3
       docker rm -f $(docker ps -a -q)
       sleep 3
       docker volume rm $(docker volume ls -q)
@@ -37,7 +39,7 @@ node[:deploy].each do |application, deploy|
         docker rmi -f #{deploy[:application]}
         sleep 3
       fi
-      docker container prune -f
+      docker system prune -a
       sleep 3
     EOH
   end
