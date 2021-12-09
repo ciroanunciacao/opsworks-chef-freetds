@@ -25,22 +25,11 @@ node[:deploy].each do |application, deploy|
       sleep 3
       docker rm -f $(docker ps -a -q)
       sleep 3
-      docker volume rm $(docker volume ls -q)
-      sleep 3
-      if docker ps | grep #{deploy[:application]}; 
-      then
-        docker stop -f #{deploy[:application]}
-        sleep 3
-        docker rm -f #{deploy[:application]}
-        sleep 3
-      fi
       if docker images | grep #{deploy[:application]}; 
       then
         docker rmi -f #{deploy[:application]}
         sleep 3
       fi
-      docker system prune -a
-      sleep 3
     EOH
   end
 
